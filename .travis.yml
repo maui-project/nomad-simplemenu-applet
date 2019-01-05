@@ -1,39 +1,33 @@
 sudo: required
-
 services:
-  - docker
-
+- docker
 addons:
   apt:
     packages:
-      - realpath
-
+    - realpath
 install:
-  - docker pull ubuntu:bionic
-  - wget https://raw.githubusercontent.com/nomad-desktop/nxos-repository-util/master/nxos-repository-util.sh -O nxos-repository-util.sh
-  - chmod +x nxos-repository-util.sh
-
+- docker pull ubuntu:bionic
+- wget https://raw.githubusercontent.com/nomad-desktop/nxos-repository-util/master/nxos-repository-util.sh
+  -O nxos-repository-util.sh
+- chmod +x nxos-repository-util.sh
 script:
- - docker run --rm -v $(pwd)/:/build/ -w /build/ ubuntu:bionic /bin/bash travis-build.sh
-
+- docker run --rm -v $(pwd)/:/build/ -w /build/ ubuntu:bionic /bin/bash travis-build.sh
 branches:
   only:
-    - master
-    - development
-
+  - master
+  - development
 deploy:
-  - provider: script
-    script: ./source/nxos-repository-util.sh upload testing *.deb
-    skip_cleanup: true
-    on:
-      branch: master
-      
-  - provider: script
-    script: ./source/nxos-repository-util.sh upload development *.deb
-    skip_cleanup: true
-    on:
-      branch: development
-
+- provider: script
+  script: "./source/nxos-repository-util.sh upload testing *.deb"
+  skip_cleanup: true
+  on:
+    branch: master
+- provider: script
+  script: "./source/nxos-repository-util.sh upload development *.deb"
+  skip_cleanup: true
+  on:
+    branch: development
 notifications:
   email: false
-  slack: nitrux:LgpKKPnWky7IWShmzXsyVDWu
+  slack:
+    secure: IssNDZuoSCJHtuekw6u7mjQuocKlxmjJ3JJyPmiZ+/WwULFr6o9PC1GMCMD4wMxghFqIV5RLLTDCiARXhSdnwArvYuZ4Uq8FPbSGwS67FGRoDPnY2ktN1nIjCyJDfMY2hhQIug6F84dJnETpqa4EEN/TvyDSMsrvbitgGFRUAbg4if84O3m39fY0ftt72iiSSOqkKwvQqEalGINwh9UoZzZRWWFsewFPqCX4X+z8Q3vCD6/aaWQoNVEEFz29Nwt+xNHVnL9vA/vQZDlshnfhbp747DLEFJ+xfOvDWQIYlOKrY7UvmTh3DECnaolm0J/T5mEKf+tKgsf8Tri13XDq/o63gLpQ2XJaQ4tn3UAPeD4CwGZ849WpDbSCGAPw2GPm2WZXfgDBKGVoBsvkqESrfauPiKTVogxIOvx3JzS9Vsg49rfNxE1xcat/Mn6i5iexlxQftPXzJSjoeBtGXfnU+KEt7MztChzY6ol1QWkI5R/j2oF7PLa42FoPaIqSicFTHvgYdqzu1N2FxOXJeAnkrDB2Bwuz1JDk2WSYVip6KbJte+x5V36ZGg7zWadkOMICAzB8s0xlPZzsx6qubA3BQn3klSg3SPjD9B0s3D4ZDjLAT11iw57IfX2MZTqH+zhQ+Dvx7uFB0CEEQ+esvUrHeoI0n3N1p/UisTvHtb/vjQE=
